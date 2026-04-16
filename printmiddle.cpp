@@ -45,10 +45,6 @@ class list{
             }
             cout<<temp->data<<endl;
           }
-      
-
-          
-
         }
         void display(){
             node* temp = head;
