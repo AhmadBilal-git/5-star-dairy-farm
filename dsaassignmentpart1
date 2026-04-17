@@ -1,0 +1,214 @@
+#include<iostream>
+using namespace std;
+
+class node{
+    public:
+        string name;
+        string phone;
+        string email;
+        string address;
+
+        node* next;
+
+    node(const string& n,const string& p, const string& e, const string& a) : 
+    name(n),phone(p),email(e),address(a) ,next(nullptr) {}
+    
+};
+
+class management{
+    public:
+        node* head = nullptr;
+
+        void pushFront(string nn, string pp, string ee, string aa){
+            node* newNode = new node(nn,pp,ee,aa);
+            if(head == nullptr){
+                head = newNode;
+            }else{
+                 newNode->next = head;
+                 head = newNode;
+            }
+        }
+
+        void pushBack(string nn, string pp, string ee, string aa){
+            node* newNode = new node(nn,pp,ee,aa);
+            if(head == nullptr){
+                head = newNode;
+            }else{
+                node* temp = head;
+                while(temp->next != nullptr){
+                    temp = temp->next;
+                }
+                temp->next = newNode;
+            }
+        }
+
+        void searchContact(string wanted){
+            node *temp = head;
+            bool found = false;
+            while(temp != nullptr){
+                if(temp->name == wanted){
+                    cout<<"Contact Found !, Details : "<<temp->name<<"/"<<
+                    temp->phone<<"/"<<temp->email<<"/"<<temp->address<<endl;
+                    found = true;
+                }
+                temp = temp->next;
+            }
+                if(found == false){
+                cout<<"The contact you are trying to find does not exist !";
+                return;
+            }
+        }
+
+        void deleteContact(const string& todelete){
+            bool found = false;
+
+            while(head != nullptr && head->name == todelete){
+                node* remove = head;
+                head = head->next;
+                delete remove;
+                found = true;
+            }
+            node* temp = head;
+            while(temp != nullptr && temp->next != nullptr){
+                if(temp->next->name == todelete){
+                    node* remove = temp->next;
+                    temp->next = temp->next->next;
+                    delete remove;
+                    found = true;
+                }else{
+                temp = temp->next;
+                }
+            }
+            
+            if(found == true){
+                cout<<"Contact deleted successfully !\n";
+            }
+            if(found == false){
+                cout<<"Contact does not exist!\n";
+    }
+        }
+
+        void sortContacts(){
+        if(head == nullptr || head->next == nullptr) 
+            return;
+
+        bool swapped;
+        do{
+            swapped = false;
+            node* temp = head;
+            while(temp->next != nullptr){
+                if(temp->name > temp->next->name){
+                    string tn = temp->name;
+                    string tp = temp->phone;
+                    string te = temp->email;
+                    string ta = temp->address;
+
+                    temp->name = temp->next->name;
+                    temp->phone = temp->next->phone;
+                    temp->email = temp->next->email;
+                    temp->address = temp->next->address;
+
+                    temp->next->name = tn;
+                    temp->next->phone = tp;
+                    temp->next->email = te;
+                    temp->next->address = ta;
+
+                    swapped = true;
+                }
+                temp = temp->next;
+            }
+        } while(swapped);
+        }
+
+        void display(){
+                node* temp = head;
+                if(temp != nullptr){
+                    cout<<"NAME | PHONE | EMAIL | ADDRESS \n";
+                while(temp != nullptr){
+                    cout<<"Contact Found !\nDetails : "<<temp->name<<"|"<<
+                    temp->phone<<"|"<<temp->email<<"|"<<temp->address<<endl;
+                    
+                    temp = temp->next;
+                }}else{
+                    cout<<"No contacts available to show.\n";
+                }
+        }
+};
+
+int main(){
+    management phonebook;
+    string NAME,PHONE,EMAIL,ADDRESS;
+    int choice;
+    do{
+        cout<<"What function you want to perform :\n";
+        cout<<"Enter 1 to add contact at beginning.\n";
+        cout<<"Enter 2 to add contact at last.\n";
+        cout<<"Enter 3 to search a contact.\n";
+        cout<<"Enter 4 to delete a contact.\n";
+        cout<<"Enter 5 to sort all contacts alphabetically.\n";
+        cout<<"Enter 6 to display available contacts.\n";
+        cout<<"Enter 0 to exit\n";
+        cout<<"Enter desired choice : ";
+        cin>>choice;
+        cin.ignore();
+
+        switch(choice){
+            case 1:
+            cout<<"Enter name : ";
+            getline(cin,NAME);
+            cout<<"Enter phone :";
+            getline(cin,PHONE);
+            cout<<"Enter email : ";
+            getline(cin,EMAIL);
+            cout<<"Enter address : ";
+            getline(cin,ADDRESS);
+            phonebook.pushFront(NAME,PHONE,EMAIL,ADDRESS);
+            system("clear");
+            cout<<"PhoneBook updated !\n";
+            break;
+
+            case 2:
+            cout<<"Enter name : ";
+            getline(cin,NAME);
+            cout<<"Enter phone :";
+            getline(cin,PHONE);
+            cout<<"Enter email : ";
+            getline(cin,EMAIL);
+            cout<<"Enter address : ";
+            getline(cin,ADDRESS);
+            phonebook.pushBack(NAME,PHONE,EMAIL,ADDRESS);
+            system("clear");
+            cout<<"PhoneBook updated !\n";
+            break;
+
+            case 3:
+            cout<<"Enter name of contact you want to search : ";
+            getline(cin,NAME);
+            phonebook.searchContact(NAME);
+            break;
+            
+            case 4:
+            cout<<"Enter the name of contact you want to delete : ";
+            getline(cin,NAME);
+            phonebook.deleteContact(NAME);
+            break;
+
+            case 5:
+            phonebook.sortContacts();
+            break;
+
+            case 6:
+            system("clear");
+            phonebook.display();
+            break;
+
+            default:
+            cout<<"Invalid input !";
+            break;
+        }
+
+    }while(choice != 0);
+    
+
+    return 0;
+}
