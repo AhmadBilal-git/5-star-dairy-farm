@@ -123,10 +123,11 @@ class management{
         void display(){
                 node* temp = head;
                 if(temp != nullptr){
+                    cout<<"Contact Found !\n";
                     cout<<"NAME | PHONE | EMAIL | ADDRESS \n";
                 while(temp != nullptr){
-                    cout<<"Contact Found !\nDetails : "<<temp->name<<"|"<<
-                    temp->phone<<"|"<<temp->email<<"|"<<temp->address<<endl;
+                    cout<<"Details : "<<temp->name<<"|"<<temp->phone<<"|"
+                    <<temp->email<<"|"<<temp->address<<endl;
                     
                     temp = temp->next;
                 }}else{
@@ -201,6 +202,10 @@ int main(){
             system("clear");
             phonebook.display();
             break;
+
+            case 0:
+            cout<<"Exiting program !";
+            return 0;
 
             default:
             cout<<"Invalid input !";
