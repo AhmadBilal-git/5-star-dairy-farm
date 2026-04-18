@@ -1,0 +1,229 @@
+#include<iostream>
+using namespace std;
+
+class node{
+    public:
+        int songID = 0;
+        string songTitle;
+        string Artist;
+        int songDuration;
+
+        node* next;
+        node* prev;
+
+        node(const string& title,const string& artist,int duration) :
+        songTitle(title),Artist(artist),songDuration(duration),
+        next(nullptr),prev(nullptr) {}
+};
+
+class management{
+    public:
+        node* head = nullptr;
+        node* tail = nullptr;
+        int songCounter = 1;
+
+        void pushBack(const string& title,const string& artist,int duration){
+            node* newNode = new node(title,artist,duration);
+            if(head == nullptr){
+                head = tail =  newNode;
+                newNode->songID = songCounter++;
+            }else{
+                tail->next = newNode;
+                newNode->prev = tail;
+                tail = newNode;
+                }
+            reassignIDs();    
+        }
+
+        void insertAnywhere(int pos,const string& title,const string& artist,int duration){
+            node* newNode = new node(title,artist,duration);
+            if(head == nullptr){
+                cout<<"Playlist is empty cannot insert at given position";
+                return;
+            }else{
+                node* temp = head;
+                for(int i = 1; i <= pos-1; i++){
+                    temp = temp->next;
+                }
+                newNode->next = temp->next;
+                newNode->prev = temp;
+                temp->next = newNode;
+                cout<<"Playlist updated !";
+            }
+            reassignIDs();
+                
+    }
+        void deleteSpecific(const string& songName){
+            if(head == nullptr){
+                cout<<"No songs in playlist !";
+                return;
+            }
+            node* temp = head;
+            while(temp != nullptr){
+                if(temp->songTitle == songName){
+                    if(temp->prev != nullptr){ 
+                        temp->prev->next = temp->next;
+                    }else{
+                        head = temp->next;}
+                if(temp->next != nullptr){
+                temp->next->prev = temp->prev;
+                }else{
+                    tail = temp->prev;
+                    }
+                delete temp;
+                reassignIDs();
+                cout<<"Song deleted !\n";
+                return;}
+                temp = temp->next;
+                }
+            cout << "No song with such name exists in this playlist.\n";
+    
+        }
+        void navigate(node* curr){
+            if(curr == nullptr){
+                cout<<"No songs in playlist!";
+                return;
+            }
+            while(true){
+                cout<<"Now Playing: "<<curr->songTitle<<" by "<<curr->Artist<<endl;
+                cout<<"Press n for next, p for previous, j to jump, q to quit: ";
+                char ch;
+                cin>>ch;
+                if(ch == 'n'){
+                if(curr->next != nullptr){
+                    curr = curr->next;
+                    }else{
+                        curr = head;
+                    }
+                }else if(ch == 'p'){
+                    if(curr->prev != nullptr){
+                        curr = curr->prev;
+                        }else{
+                            curr = tail;
+                        }
+                }else if(ch == 'j'){
+                    int id;
+                    cout<<"Enter Song ID: ";
+                    cin>>id;
+                    node* found = findByID(id);
+                    if(found == nullptr){
+                        cout<<"Song not found."<<endl;
+                    }else{
+                        curr = found;
+                        }
+                }else if(ch == 'q'){
+                    return;
+                }
+            }
+        }
+        
+        void diplay(){
+            node* temp = head;
+            if(head == nullptr){
+                cout<<"Playlist empty\n";
+            }else{
+                cout<<"Song ID | Song Name | Artist Name | Song Duration\n";
+                while(temp != nullptr){
+                    cout<<temp->songID<<" | "<<temp->songTitle<<" | "<<temp->Artist<<" | "
+                    <<temp->songDuration<<endl;
+                    temp = temp->next;
+                }
+            }
+        }
+        
+//Helper functions 
+        node* findByID(int id){
+                node* temp = head;
+                while(temp != nullptr){
+                    if(temp->songID == id){ 
+                    return temp;
+                    }else{
+                    temp = temp->next;}
+                }
+                return nullptr;}
+        
+        void reassignIDs(){
+            node* temp = head;
+            int count = 1;
+            while(temp != nullptr){
+                temp->songID = count++;
+                temp = temp->next;
+            }
+}
+};
+
+int main(){
+    management playlist;
+    string _songName;
+    string _artistName;
+    int _songDuration;
+    int position;
+    int choice;
+    
+    do{
+        cout<<"Choose desired option\n";
+        cout<<"Enter 1 to add a song to your playlist\n";
+        cout<<"Enter 2 to insert the song at a sepcific position in your existing playlist\n";
+        cout<<"Enter 3 to delete a song\n";
+        cout<<"Enter 4 to start playing\n";
+        cout<<"Enter 5 to view complete playlist\n";
+        cout<<"Enter 0 to exit\n";
+        cout<<"Enter choice : ";
+        cin>>choice;
+        cin.ignore();
+        
+        switch(choice){
+            case 1:
+                cout<<"Enter the name of song : ";
+                getline(cin,_songName);
+                cout<<"Enter the name of artist : ";
+                getline(cin,_artistName);
+                cout<<"Enter the duration of song in seconds : ";
+                cin>>_songDuration;cin.ignore();
+                system("clear");
+
+                playlist.pushBack(_songName,_artistName,_songDuration);
+                cout<<"Playlist updated !"<<endl;
+                break;
+
+            case 2:
+                cout<<"Enter the name of song : ";
+                getline(cin,_songName);
+                cout<<"Enter the name of artist : ";
+                getline(cin,_artistName);
+                cout<<"Enter the duration of song in seconds : ";
+                cin>>_songDuration;cin.ignore();
+                system("clear");
+
+                playlist.insertAnywhere(position,_songName,_artistName,_songDuration);
+                break;
+
+            case 3:
+                cout<<"Enter the name of song you want to remove from playlist : ";
+                getline(cin,_songName);
+                system("clear");
+                playlist.deleteSpecific(_songName);
+                break;
+
+            case 4:
+                playlist.navigate(playlist.head);
+                break;
+
+            case 5:
+                system("clear");
+                playlist.diplay();
+                break;
+            case 0:
+                cout<<"Exiting program !";
+                return 0;
+
+            default:
+                cout<<"Invalid input !";
+                break;
+
+        }
+
+    }while(choice != 0);
+
+    return 0;
+}
