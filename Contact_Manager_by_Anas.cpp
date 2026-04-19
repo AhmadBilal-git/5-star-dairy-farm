@@ -197,6 +197,6 @@ int main() {
 			break;
 		}
 
-	} while (input != 9);
+	} while (input != 8);
 		return 0;
 }
