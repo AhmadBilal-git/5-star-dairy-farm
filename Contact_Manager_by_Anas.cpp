@@ -112,25 +112,91 @@ public:
 
 int main() {
 	list l;
-	l.addFront("Anas", "456", "anas@gmail.com");
-	l.addFront("Ahmed", "789", "ahmed@gmail.com");
-	l.addBack("Ali", "123", "ali@gmail.com");
-	cout << "====All Contacts====" << endl;
-	l.display();
-	cout << endl;
-	cout << "====All Contacts After Sorting====" << endl;
-	l.sorting();
-	l.display();
-	cout << "====Search for Anas====" << endl;
-	l.search("Anas");
-	cout << endl;
-	cout << "====Search for Abdullah====" << endl;
-	l.search("Abdullah");
-	cout << endl;
-	cout << "====Delete Anas====" << endl;
-	l.Del("Anas");
-	cout << endl;
-	cout << "====Display after Delete====" << endl;
-	l.display();
-	return 0;
+	string name;
+	string phone;
+	string mail;
+	int input;
+	do {
+		cout << "\n1. Test All Functions at once." << endl;
+		cout << "2. Push Contact from Front." << endl;
+		cout << "3. Push Contact from Back." << endl;
+		cout << "4. Display All Contacts." << endl;
+		cout << "5. Arrange All Contacts(sorting)." << endl;
+		cout << "6. Search Contact By name." << endl;
+		cout << "7. Delete Contact By name." << endl;
+		cout << "8. Exit." << endl;
+		cout << "Choose: ";
+		cin >> input;
+		switch (input) {
+		case 1:
+			l.addFront("Anas", "456", "anas@gmail.com");
+			l.addFront("Ahmed", "789", "ahmed@gmail.com");
+			l.addBack("Ali", "123", "ali@gmail.com");
+			cout << "====All Contacts====" << endl;
+			l.display();
+			cout << endl;
+			cout << "====All Contacts After Sorting====" << endl;
+			l.sorting();
+			l.display();
+			cout << "====Search for Anas====" << endl;
+			l.search("Anas");
+			cout << endl;
+			cout << "====Search for Abdullah====" << endl;
+			l.search("Abdullah");
+			cout << endl;
+			cout << "====Delete Anas====" << endl;
+			l.Del("Anas");
+			cout << endl;
+			cout << "====Display after Delete====" << endl;
+			l.display();
+			break;
+		case 2:
+			cout << "Adding Contact via PUSH_FRONT." << endl;
+			cout << "Enter Name: "; cin >> name;
+			cout << "Enter Phone number: "; cin >> phone;
+			cout << "Enter Email Address: "; cin >> mail;
+			l.addFront(name, phone, mail);
+			cout << "Contact Saved." << endl;
+			break;
+		case 3:
+			cout << "Adding Contact via PUSH_BACK." << endl;
+			cout << "Enter Name: "; cin >> name;
+			cout << "Enter Phone number: "; cin >> phone;
+			cout << "Enter Email Address: "; cin >> mail;
+			l.addBack(name, phone, mail);
+			cout << "Contact Saved." << endl;
+			break;
+		case 4:
+			cout << "====All Contacts====" << endl;
+			l.display();
+			cout << endl;
+			break;
+		case 5:
+			cout << "====All Contacts After Sorting====" << endl;
+			l.sorting();
+			l.display();
+			break;
+		case 6:
+			cout << "Enter Name: "; cin >> name;
+			cout << "Searching for "<<name<<"..." << endl;
+			cin >> name;
+			l.search(name);
+			cout << endl;
+			break;
+		case 7:
+			cout << "Enter Name: "; cin >> name;
+			cout << "Searching for " << name << "..." << endl;
+			l.Del(name);
+			cout << endl;
+			break;
+		case 8:
+			cout << "Program Ended.";
+			break;
+		default:
+			cout << "Invalid input !";
+			break;
+		}
+
+	} while (input != 9);
+		return 0;
 }
