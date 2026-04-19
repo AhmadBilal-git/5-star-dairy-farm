@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 using namespace std;
 
 class Node
@@ -48,6 +49,7 @@ public:
             }
             temp->next = new_node;
         }
+        
     }
 
     // Start pe node add krna
@@ -209,23 +211,74 @@ public:
 int main()
 {
     Linklist first;
-
-    first.push_front("Ali", 012, "ali@mail.com");
-    first.push_front("Abdullah", 345, "ali@mail.com");
-    first.push_front("Ahmad", 678, "ali@mail.com");
-
-    first.push_back("Anas", 901, "ali@mail.com");
-    first.push_back("Obaid", 234, "ali@mail.com");
-
-    first.display();
-
-    first.search_by_name("Ali Hamza");
-
-    first.sorting_list();
-    cout << endl;
-    first.display();
-
-    first.deleteContact("Ali");
-    cout << endl;
-    first.display();
+    string name,email;
+    int phone;
+    int choice;
+    do{
+        cout<<"\n     Contact Management System   \n";
+        cout<<"1 : Add Contact at end  \n";
+        cout<<"2 : Add Contact at start \n";
+        cout<<"3 : Search Contact by name \n";
+        cout<<"4 : Delete Contact by name \n";
+        cout<<"5 : Sort the Contacts Alphabetically \n";
+        cout<<"6 : Display the Contacts \n";
+        cout<<"0 : Enter 0 to exit \n";
+        cout<<"Enter the Number to perform Operation : ";
+        cin>>choice;
+        cin.ignore();
+        
+        switch (choice)
+        {
+        case 1:
+            cout<<"Enter the Contact Details :" <<endl;
+            cout<<"Name : ";
+            getline(cin,name);
+            cout<<"Email : ";
+            getline(cin,email);
+            cout<<"Phone Number : ";
+            cin>>phone;
+            first.push_back(name,phone,email);
+            cout<<"Contact Added Successfylly \n";
+            break;
+        case 2:
+            cout<<"Enter the Contact Details :" <<endl;
+            cout<<"Name : ";
+            getline(cin,name);
+            cout<<"Email : ";
+            getline(cin,email);
+            cout<<"Phone Number : ";
+            cin>>phone;
+            first.push_front(name,phone,email);
+            cout<<"Contact Added Successfully \n";
+            break;
+        case 3:
+            cout<<"Enter the Contact Name to Search " <<endl;
+            cout<<"Name : ";
+            getline(cin,name);
+            first.search_by_name(name);
+            break;
+        case 4:
+            cout<<"Enter the Contact Name to Delete :" <<endl;
+            cout<<"Name : ";
+            getline(cin,name);
+            first.deleteContact(name);
+            cout<<"Contact Deleted Successfully \n";
+            break;
+        case 5:
+            first.sorting_list();
+            cout<<"Contacts Sorted Successfully \n";
+            first.display();
+            break;
+        case 6:
+            first.display();
+            break;
+        case 0:
+           cout<<"Closing...\n";
+           return 0;
+        default:
+            cout<<"Invalid Input \n";
+            break;
+        }
+    }
+    while(choice != 0);
 }
