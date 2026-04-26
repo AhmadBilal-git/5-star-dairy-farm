@@ -83,23 +83,41 @@ public:
 		tail->next = nullptr;
 	}
 	void dspecific(int target) {
-		if (head == nullptr) { cout << "Empty list" << endl; return; }
-		if (head->data == target) {
+		if (head == nullptr) {
+			cout << "Empty list" << endl;
+			return;
+		}
+		// delete from head
+		while (head != nullptr && head->data == target) {
 			Node* temp = head;
 			head = head->next;
-			if (head == tail)tail = nullptr;
-			delete temp; return;
+			delete temp;
 		}
-		Node* curr = head; Node* prev = nullptr;
+		if (head == nullptr) {
+			tail = nullptr;
+			cout << "All matching nodes deleted." << endl;
+			return;
+		}
+		Node* curr = head;
+		Node* prev = nullptr;
 		while (curr != nullptr) {
 			if (curr->data == target) {
+				Node* temp = curr;          
 				prev->next = curr->next;
-				delete curr;
-			    cout << "Target " << target << " deleted." << endl; return;
+				curr = curr->next;
+				delete temp;                
 			}
-			prev = curr; curr = curr->next;
+			else {
+				prev = curr;
+				curr = curr->next;
+			}
 		}
-		cout << "Target Could Not Found." << endl;
+		// update tail
+		tail = head;
+		while (tail != nullptr && tail->next != nullptr) {
+			tail = tail->next;
+		}
+		cout << "All occurrences of " << target << " deleted." << endl;
 	}
 	void reverse() {
 		if (head == nullptr || head->next == nullptr) { cout << "Empty list." << endl; return; }
@@ -153,7 +171,7 @@ public:
 int main() { 
 	List l;
 	l.front(3); l.front(2); l.front(1);
-	l.back(4); l.back(5); l.back(6); l.back(7); l.back(8); l.back(9);
+	l.back(4); l.back(5); l.back(5); l.back(5); l.back(6); l.back(7); l.back(8); l.back(9);
 	l.display();
 	cout << "Reverse list: "; l.reverse();
 	l.display();
